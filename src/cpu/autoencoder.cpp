@@ -13,27 +13,27 @@ Autoencoder::~Autoencoder() {
 }
 
 void Autoencoder::build_model() {
-    // Encoder
+    // Encoder (lighter CPU baseline)
     // Input: (3, 32, 32)
-    layers.push_back(new Conv2D(3, 256, 3, 1, 1));
+    layers.push_back(new Conv2D(3, 64, 3, 1, 1));
     layers.push_back(new ReLU());
     layers.push_back(new MaxPool2D(2, 2));
-    
-    layers.push_back(new Conv2D(256, 128, 3, 1, 1));
-    layers.push_back(new ReLU());
-    layers.push_back(new MaxPool2D(2, 2));
-    // Latent: (128, 8, 8)
 
-    // Decoder
-    layers.push_back(new Conv2D(128, 128, 3, 1, 1));
+    layers.push_back(new Conv2D(64, 32, 3, 1, 1));
+    layers.push_back(new ReLU());
+    layers.push_back(new MaxPool2D(2, 2));
+    // Latent: (32, 8, 8)
+
+    // Decoder (mirror of encoder)
+    layers.push_back(new Conv2D(32, 32, 3, 1, 1));
     layers.push_back(new ReLU());
     layers.push_back(new UpSample2D(2));
-    
-    layers.push_back(new Conv2D(128, 256, 3, 1, 1));
+
+    layers.push_back(new Conv2D(32, 64, 3, 1, 1));
     layers.push_back(new ReLU());
     layers.push_back(new UpSample2D(2));
-    
-    layers.push_back(new Conv2D(256, 3, 3, 1, 1));
+
+    layers.push_back(new Conv2D(64, 3, 3, 1, 1));
     // Output: (3, 32, 32)
 }
 
